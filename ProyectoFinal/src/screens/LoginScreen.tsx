@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }: any) {
   /** Manejar el intento de inicio de sesión */
   const handleLogin = () => {
     setSubmitted(true);
-    if (!isFormValid) {
+    if (isFormValid) {
       // Navegar a la tab Home dentro del TabsNavigator
       navigation.navigate('Tabs', { screen: 'Home' });
     }
@@ -42,11 +42,11 @@ export default function LoginScreen({ navigation }: any) {
     <View>
       <View style={styles.logoContainer}>
         <Image
-          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/616/616408.png' }}
+          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/4352/4352602.png' }}
           style={styles.logo}
         />
-        <Text style={styles.appTitle}>🐾 PetCare Mini</Text>
-        <Text style={styles.subtitle}>Cuida a tu mascota cada día</Text>
+        <Text style={styles.appTitle}>Gira</Text>
+        <Text style={styles.subtitle}>Organiza tus proyectos</Text>
       </View>
 
       <View style={styles.formContainer}>
@@ -128,14 +128,12 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
   },
-  buttonContainer: {
-    marginTop: 12,
-    width: "50%",
-    height: "30%",
-    alignItems: "center",
-    backgroundColor: "blue",
-    color: "white",
-  },
+ buttonContainer: {
+  marginTop: 12,
+  alignSelf: "center",
+  alignItems: "center",
+  justifyContent: "center",
+},
   helpText: {
     textAlign: 'center',
     color: '#E53935',
