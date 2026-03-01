@@ -1,7 +1,9 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
 export default function TabsNavigator(){
     return(
-        <View>Hola</View>
+        <View>
+            <Text>Hola</Text>
+        </View>
     );
 }

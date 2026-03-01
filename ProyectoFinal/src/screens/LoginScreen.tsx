@@ -32,7 +32,7 @@ export default function LoginScreen({ navigation }: any) {
   /** Manejar el intento de inicio de sesión */
   const handleLogin = () => {
     setSubmitted(true);
-    if (isFormValid) {
+    if (!isFormValid) {
       // Navegar a la tab Home dentro del TabsNavigator
       navigation.navigate('Tabs', { screen: 'Home' });
     }
