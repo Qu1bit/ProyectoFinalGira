@@ -33,8 +33,7 @@ export default function LoginScreen({ navigation }: any) {
   const handleLogin = () => {
     setSubmitted(true);
     if (isFormValid) {
-      // Navegar a la tab Home dentro del TabsNavigator
-      navigation.navigate('Tabs', { screen: 'Home' });
+      navigation.navigate('dash');
     }
   };
 

@@ -3,10 +3,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/LoginScreen";
 //import HomeScreen from "../screens/HomeScreen";
 import TabsNavigator from './TabsNavigator';
+import Dashboard from '../screens/DashBoard';
 
 export type RootStackParamList = {
     Login: undefined,
-    Tabs: {email: string},
+    Tabs: {email?: string} | undefined,
+    dash: undefined,
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -25,9 +27,10 @@ export default function StackNavigator() {
                 component={LoginScreen} 
                 options={{title:'Inicio de Sesion'}}
             />
-            <Stack.Screen 
-                name="Tabs"
-                component = {TabsNavigator}
+           <Stack.Screen
+                name="dash"
+                component={Dashboard}
+                options={{ title: 'Dashboard' }}
             />
         </Stack.Navigator>
     );
