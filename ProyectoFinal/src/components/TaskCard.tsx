@@ -1,8 +1,12 @@
 import { View, StyleSheet } from 'react-native';
 
 interface TaskCardProps {
-  children?: React.ReactNode;
   style?: object;
+  owner: string;
+  description: string;
+  statusTask?: string;
+  createdAt: string;
+  closedAt: string;
 }
 
 const TaskCard: React.FC<TaskCardProps> = ({ children, style }) => {
