@@ -30,12 +30,15 @@ export default function LoginScreen({ navigation }: any) {
   const isFormValid = email.includes('@') && password.length >= 6;
 
   /** Manejar el intento de inicio de sesión */
-  const handleLogin = () => {
-    setSubmitted(true);
-    if (isFormValid) {
-      navigation.navigate('dash');
-    }
-  };
+  
+const handleLogin = () => {
+  setSubmitted(true);
+  if (isFormValid) {
+    // antes: navigation.navigate('dash');
+    navigation.replace('Tabs', { email }); // o navigation.navigate('Tabs', { email })
+  }
+};
+
 
   return (
     <View>

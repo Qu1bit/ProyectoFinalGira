@@ -1,9 +1,31 @@
-import { View, Text } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import HomeScreen from "../screens/LoginScreen";
+import CreateNewTask from "../screens/CreateNewTask";
+import Dashboard from "../screens/DashBoard";
 
-export default function TabsNavigator(){
+
+export type TabsParamList = {
+    Dash: undefined;
+    Create: undefined;
+}
+
+const Tab = createBottomTabNavigator<TabsParamList>();
+
+export default function TabsNavigator () {
+
     return(
-        <View>
-            <Text>Hola</Text>
-        </View>
+        <Tab.Navigator>
+            <Tab.Screen 
+                name = "Dash"
+                component={Dashboard}
+                options={{headerShown: false}}
+            />
+            <Tab.Screen 
+                name = "Create"
+                component={CreateNewTask}
+                options={{headerShown: false}}
+            />
+
+        </Tab.Navigator>
     );
 }

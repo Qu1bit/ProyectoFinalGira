@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, Alert } from "react-native";
 import TaskCard from '../components/TaskCard'
 
 export default function Dashboard({ navigation }: any) {
+      
+    
   return (
     //scroll vie para desplazar em la pantalla
     <ScrollView>
