@@ -1,20 +1,36 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import TaskCard from '../components/TaskCard'
 
-export default  function Dashboard ({ navigation }: any){
-    return (
-        <View>
-            <TaskCard
-                owner="Emerson"
-                description="Hacer Foro"
-                createdAt={new Date()}
-                closedAt={new Date('2026-03-10T17:00:00-06:00')} 
-   
-            >    
-            </TaskCard>
-        </View>
+export default function Dashboard({ navigation }: any) {
+  return (
+    //scroll vie para desplazar em la pantalla
+    <ScrollView>
+      <View>
 
-    );
+        <TaskCard
+          owner="Emerson"
+          description="Hacer Foro"
+          createdAt={new Date()}
+          closedAt={new Date('2026-03-10T17:00:00-06:00')}
+        />
+
+        <TaskCard
+          owner="Emerson"
+          description="Hacer Foro"
+          createdAt={new Date()}
+          closedAt={new Date('2026-03-02T17:00:00-06:00')}
+        />
+        <TaskCard
+          owner="Emerson"
+          description="Hacer Foro"
+          createdAt={new Date()}
+          closedAt={new Date('2026-03-10T17:00:00-06:00')}
+        />
+
+
+      </View>
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -27,6 +43,3 @@ const styles = StyleSheet.create({
     color: '#6b7280',
   },
 });
-
-
-

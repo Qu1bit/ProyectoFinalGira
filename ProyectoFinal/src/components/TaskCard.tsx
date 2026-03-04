@@ -18,13 +18,15 @@ export default function TaskCard({
   const now = new Date();
 
   let status: 'pendiente' | 'completado' | 'vencido';
-  if (closedAt && now > closedAt) {
-    status = 'vencido';
-  } else if (closedAt) {
+
+  if (isCompleted && closedAt && now <= closedAt) {
     status = 'completado';
+  } else if (!isCompleted && closedAt && now > closedAt) {
+    status = 'vencido';
   } else {
     status = 'pendiente';
   }
+
 
   return (
     <View
