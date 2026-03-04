@@ -1,21 +1,49 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 
 interface TaskCardProps {
-  style?: object;
   owner: string;
-  description: string;
-  statusTask?: string;
-  createdAt: string;
-  closedAt: string;
+  description?: string;
+  createdAt?: Date;
+  closedAt?: Date;
+  isCompleted?:boolean;
 }
 
-const TaskCard: React.FC<TaskCardProps> = ({ children, style }) => {
+export default function TaskCard({
+  owner,
+  description,
+  createdAt,
+  closedAt,
+  isCompleted=false,
+}: TaskCardProps) {
+  const now = new Date();
+
+  let status: 'pendiente' | 'completado' | 'vencido';
+  if (closedAt && now > closedAt) {
+    status = 'vencido';
+  } else if (closedAt) {
+    status = 'completado';
+  } else {
+    status = 'pendiente';
+  }
+
   return (
-    <View style={[styles.card, style]}>
-      {children}
+    <View
+      style={[
+        styles.card,
+        status === 'pendiente'
+          ? styles.cardPending
+          : status === 'completado'
+          ? styles.cardCompleted
+          : styles.cardExpired,
+      ]}
+    >
+      <Text>{owner}</Text>
+      <Text>{description}</Text>
+      <Text>Creado: {createdAt?.toLocaleDateString()}</Text>
+      <Text>Creado: {closedAt?.toLocaleDateString()}</Text>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   card: {
@@ -32,6 +60,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e5e7eb',
   },
+  cardPending: {
+    borderColor: '#f59e0b', // ámbar
+    backgroundColor: '#fffbeb',
+  },
+  cardCompleted: {
+    borderColor: '#10b981', // verde
+    backgroundColor: '#ecfdf5',
+  },
+  cardExpired: {
+    borderColor: '#ef4444', // rojo
+    backgroundColor: '#fef2f2',
+  },
 });
-
-export default TaskCard;

@@ -4,14 +4,13 @@ import TaskCard from '../components/TaskCard'
 export default  function Dashboard ({ navigation }: any){
     return (
         <View>
-            <View>
-                <Text>
-                    Hola estas en dashboard admin
-                </Text>
-            </View>
-            <TaskCard>    
-                <Text style={styles.cardTitle}>Tarea de ejemplo</Text>
-                <Text style={styles.cardSubtitle}>Descripción breve o placeholder…</Text>
+            <TaskCard
+                owner="Emerson"
+                description="Hacer Foro"
+                createdAt={new Date()}
+                closedAt={new Date('2026-03-10T17:00:00-06:00')} 
+   
+            >    
             </TaskCard>
         </View>
 

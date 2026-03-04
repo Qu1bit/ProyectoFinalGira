@@ -15,7 +15,8 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function StackNavigator() {
     return(
-        <Stack.Navigator initialRouteName='Login' 
+        //temporalmente dash para no estar poniendo el login
+        <Stack.Navigator initialRouteName='dash' 
         screenOptions={{headerShown: true}}
         >
             {/* <Stack.Screen 

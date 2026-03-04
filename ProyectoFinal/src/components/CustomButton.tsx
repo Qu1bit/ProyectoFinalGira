@@ -11,12 +11,7 @@ interface CustomButtonProps {
 
  //Botón reutilizable con soporte para variantes y estado deshabilitado.
  //Usa operadores ternarios para cambiar estilos según la variante y si está deshabilitado.
-export default function CustomButton({
-  title,
-  onPress,
-  disabled = false,
-  variant = 'primary',
-}: CustomButtonProps) {
+export default function CustomButton({title, onPress, disabled = false, variant = 'primary',}: CustomButtonProps) {
   // --- Ternario: estilo del contenedor según variante y estado disabled ---
   const buttonStyle: ViewStyle = {
     ...(variant === 'primary' ? styles.primary : styles.secondary),
