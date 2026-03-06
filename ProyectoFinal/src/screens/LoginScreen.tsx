@@ -1,11 +1,9 @@
-// ============================================
-// Pantalla: LoginScreen
-// ============================================
 import { useState } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Alert } from 'react-native';
 
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
+import { useAuth } from '../components/contexts/AuthContext';
 
 /**
  * Pantalla de inicio de sesión.
@@ -13,31 +11,36 @@ import CustomButton from '../components/CustomButton';
  */
 export default function LoginScreen({ navigation }: any) {
   // --- Estado local ---
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [submitted, setSubmitted] = useState(false);
 
+  //llamado a funcion del contexto
+  const {login} = useAuth();
+
+
   // --- Validaciones ---
-  const emailError =
-    submitted && !email.includes('@') ? 'El correo debe incluir @' : '';
+const userError = submitted && username.length === 0 ? 'Ingrese un usuario' : '';
+  const passwordError = submitted && password.length < 4 ? 'Contraseña muy corta' : '';
 
-  const passwordError =
-    submitted && password.length < 6
-      ? 'La contraseña debe tener al menos 6 caracteres'
-      : '';
-
-  // --- Ternario: determinar si el formulario es válido ---
-  const isFormValid = email.includes('@') && password.length >= 6;
+  const isFormValid = username.length > 0 && password.length >= 4;
 
   /** Manejar el intento de inicio de sesión */
-  
-const handleLogin = () => {
-  setSubmitted(true);
-  if (isFormValid) {
-    // antes: navigation.navigate('dash');
-    navigation.replace('Tabs', { email }); // o navigation.navigate('Tabs', { email })
-  }
-};
+  const handleLogin = () => {
+    setSubmitted(true);
+    
+    if (isFormValid) {
+      // Intentamos hacer login con las credenciale del contexto
+      const success = login(username, password);
+      
+      if (!success) {
+        Alert.alert(
+          "Error de acceso", 
+          "Usuario o contraseña incorrectos. Intente con 'superadmin' o 'cristhian'."
+        );
+      }
+    }
+  };
 
 
   return (
@@ -56,11 +59,11 @@ const handleLogin = () => {
 
         {/* Input de correo */}
         <CustomInput
-          value={email}
+          value={username}
           placeholder="Correo electrónico"
-          onChangeText={setEmail}
+          onChangeText={setUsername}
           type="email"
-          error={emailError}
+          error={userError}
         />
 
         {/* Input de contraseña */}

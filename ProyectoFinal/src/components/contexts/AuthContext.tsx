@@ -4,13 +4,14 @@ import React, { createContext, useContext, useState } from "react";
 type Role = 'admin' | 'common';
 
 type User = {
+    username: string; //propiedad agregada
     role: Role;
 } | null;
 
 type AuthContextType = {
     user: User;
     isAuthenticated: boolean; // estado que da la sesion como iniciada 
-    login: (role: Role) => void; // Funcion para guardar el rol
+    login: (username: string, password: string ) => boolean;
     logout: () => void; // Funcion para regresar a Login
 }
 
@@ -29,9 +30,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User>(null);
 
     // iniciar sesion
-    const login = (role: Role) => {
-        setUser({ role }); // Guardar rol seleccionado
-    };
+    const login = (username: string, password: string): boolean=>{
+        if (username ==='superadmin'){
+            setUser({username:'superadmin', role:'admin'})
+            return true;
+        }
+        if(username ==='cristhian'){
+            setUser({username:'cristhian', role:'common'})
+            return true;
+        }
+        return false;
+    }
 
     // Cierre de sesion
     const logout = () => {
