@@ -4,7 +4,7 @@ import React, { createContext, useContext, useState } from "react";
 type Role = 'admin' | 'common';
 
 type User = {
-    username: string; //propiedad agregada
+    username: string; //propiedad agregad
     role: Role;
 } | null;
 
