@@ -1,7 +1,6 @@
-//Componente CustomButton
 import {TouchableOpacity,Text,StyleSheet,ViewStyle,TextStyle} from 'react-native';
 
-//Propiedades del botón personalizado
+//Propiedades del boton personalizado
 interface CustomButtonProps {
   title: string;
   onPress: () => void;
@@ -9,7 +8,7 @@ interface CustomButtonProps {
   variant: 'primary' | 'secondary';
 }
 
- //Botón reutilizable con soporte para variantes y estado deshabilitado.
+ //Boton reutilizable con soporte para variantes y estado deshabilitado.
  //Usa operadores ternarios para cambiar estilos según la variante y si está deshabilitado.
 export default function CustomButton({title, onPress, disabled = false, variant = 'primary',}: CustomButtonProps) {
   // --- Ternario: estilo del contenedor según variante y estado disabled ---

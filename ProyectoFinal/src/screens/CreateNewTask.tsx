@@ -6,8 +6,8 @@ import CustomButton from "../components/CustomButton";
 export default function CreateNewTask({ navigation }: any) {
   const [clase, setClase] = useState('');
   const [query, setQuery] = useState('');
-  const [startDate, setStartDate] = useState(''); // YYYY-MM-DD (fecha inicio)
-  const [dueDate, setDueDate] = useState('');     // YYYY-MM-DD (fecha fin)
+  const [startDate, setStartDate] = useState(''); //fecha inicio
+  const [dueDate, setDueDate] = useState('');     //fecha fin
 
   const isFormValid =
     clase.trim().length > 0 &&
@@ -21,16 +21,14 @@ export default function CreateNewTask({ navigation }: any) {
     }
 
     const newTask = {
-      owner: 'Profesor',              // puedes cambiarlo por el usuario real
+      owner: 'Profesor',
       description: clase.trim(),
-      createdAt: new Date(startDate), // fecha de inicio
-      closedAt: new Date(dueDate),    // fecha fin
+      createdAt: new Date(startDate),
+      closedAt: new Date(dueDate),
       isCompleted: false,
-      // Puedes agregar un campo opcional para que Dashboard sepa que viene “para todos”
       assignToAll: true,
     };
 
-    // Cambiamos al tab de Dashboard y pasamos la nueva tarea
     navigation.navigate('Dashboard', { newTask });
   };
 
@@ -94,7 +92,6 @@ export default function CreateNewTask({ navigation }: any) {
         />
       </View>
 
-      {/* Tu botón */}
       <View >
         <CustomButton
           title="Enviar Tareas"

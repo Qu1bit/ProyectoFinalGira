@@ -5,7 +5,7 @@ import CustomButton from "../components/CustomButton";
 
 
 export default function Dashboard({ navigation }: any) {
-  // Extraemos el usuario y la función de logout del contexto [cite: 22, 23]
+  // Se toma el usuario y la función de logout del contexto
   const { user, logout } = useAuth(); 
       
   return (
@@ -65,22 +65,5 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 40,
     alignItems: 'center',
-  },
-  // Estilo para el botón flotante (FAB)
-  fab: {
-    position: 'absolute',
-    right: 20,
-    bottom: 20,
-    backgroundColor: '#2563eb',
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
   },
 });

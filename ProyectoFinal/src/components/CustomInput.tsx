@@ -1,4 +1,3 @@
-//Componente CustomInput
 import { useState } from 'react';
 import {View,TextInput,Text,TouchableOpacity,StyleSheet,KeyboardTypeOptions} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -13,9 +12,7 @@ interface CustomInputProps {
 }
 
 
- //Input reutilizable con soporte para distintos tipos,
- //toggle de visibilidad para contraseñas y mensajes de error.
- 
+ //Input reutilizable
 export default function CustomInput({
   value,
   placeholder,
@@ -61,7 +58,6 @@ export default function CustomInput({
           </TouchableOpacity>
         )}
       </View>
-      //<Text style={styles.errorText}>{error}</Text>
   );
 }
 

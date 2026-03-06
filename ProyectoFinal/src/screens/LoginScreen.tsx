@@ -6,7 +6,7 @@ import CustomButton from '../components/CustomButton';
 import { useAuth } from '../components/contexts/AuthContext';
 
 /**
- * Pantalla de inicio de sesión.
+ * Pantalla de inicio de sesion.
  * Incluye validaciones con ternarios y renderizado condicionado.
  */
 export default function LoginScreen({ navigation }: any) {
@@ -30,7 +30,7 @@ const userError = submitted && username.length === 0 ? 'Ingrese un usuario' : ''
     setSubmitted(true);
     
     if (isFormValid) {
-      // Intentamos hacer login con las credenciale del contexto
+      // hacer login con las credenciale del contexto
       const success = login(username, password);
       
       if (!success) {

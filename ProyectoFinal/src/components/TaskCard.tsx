@@ -79,15 +79,15 @@ const styles = StyleSheet.create({
     borderColor: '#e5e7eb',
   },
   cardPending: {
-    borderColor: '#f59e0b', // ámbar
+    borderColor: '#f59e0b',
     backgroundColor: '#fffbeb',
   },
   cardCompleted: {
-    borderColor: '#20ac32', // verde
+    borderColor: '#20ac32',
     backgroundColor: '#8ff3d2',
   },
   cardExpired: {
-    borderColor: '#ef4444', // rojo
+    borderColor: '#ef4444', 
     backgroundColor: '#fef2f2',
   },
   buttonContainer: {
