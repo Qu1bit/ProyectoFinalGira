@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
+import CustomButton from './CustomButton';
+
 
 interface TaskCardProps {
   owner: string;
@@ -15,35 +18,48 @@ export default function TaskCard({
   closedAt,
   isCompleted=false,
 }: TaskCardProps) {
+  //cambios en el estado completado de Task
+  const[completed, setCompleted] = useState(isCompleted);
   const now = new Date();
 
   let status: 'pendiente' | 'completado' | 'vencido';
-
-  if (isCompleted && closedAt && now <= closedAt) {
+  //cambio en el if de isCompleted a completed (lin 27 y 29), solo asi se puede 
+  // actualizar el estado de task por medio del setCompleted definido en lin 22
+  if (completed && closedAt && now <= closedAt) {
     status = 'completado';
-  } else if (!isCompleted && closedAt && now > closedAt) {
+  } else if (!completed && closedAt && now > closedAt) {
     status = 'vencido';
   } else {
     status = 'pendiente';
   }
 
+  const handleComplete = () => {setCompleted(true)};
+
 
   return (
-    <View
-      style={[
-        styles.card,
-        status === 'pendiente'
-          ? styles.cardPending
-          : status === 'completado'
-          ? styles.cardCompleted
-          : styles.cardExpired,
+      <View
+      style={[styles.card, 
+        status === 'pendiente' ? styles.cardPending : status === 'completado'
+        ? styles.cardCompleted : styles.cardExpired,
       ]}
-    >
+      >
       <Text>{owner}</Text>
       <Text>{description}</Text>
       <Text>Creado: {createdAt?.toLocaleDateString()}</Text>
-      <Text>Creado: {closedAt?.toLocaleDateString()}</Text>
+      <Text>Cierra: {closedAt?.toLocaleDateString()}</Text>
+
+        <View style={styles.buttonContainer}>
+          <CustomButton
+          title={completed ? 'Completada' : 'Marcar completada'}
+          onPress={handleComplete}
+          variant={completed ? 'primary' : 'secondary'}
+          disabled={completed}
+          />
+        </View>
+        
+    
     </View>
+
   );
 }
 
@@ -67,11 +83,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fffbeb',
   },
   cardCompleted: {
-    borderColor: '#10b981', // verde
-    backgroundColor: '#ecfdf5',
+    borderColor: '#20ac32', // verde
+    backgroundColor: '#8ff3d2',
   },
   cardExpired: {
     borderColor: '#ef4444', // rojo
     backgroundColor: '#fef2f2',
   },
+  buttonContainer: {
+  marginRight: 5,
+  alignSelf: "center",
+  //alignItems: "center",
+  justifyContent: "center",
+},
 });
