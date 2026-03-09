@@ -162,5 +162,23 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#6b7280",
   },
+    // --- estilo boton fijo ---
+  fixedFooter: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderTopColor: '#e5e7eb',
+    // Sombras
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
+    elevation: 10,
+  },
 
 });
