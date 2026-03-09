@@ -1,6 +1,16 @@
-import {TouchableOpacity,Text,StyleSheet,ViewStyle,TextStyle} from 'react-native';
+import React, {useState} from 'react';
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+  GestureResponderEvent,
+  View,
+  ScrollView,
+} from 'react-native';
 
-//Propiedades del boton personalizado
+// Propiedades del botón personalizado (sin cambios)
 interface CustomButtonProps {
   title: string;
   onPress: () => void;
@@ -8,26 +18,67 @@ interface CustomButtonProps {
   variant: 'primary' | 'secondary';
 }
 
- //Boton reutilizable con soporte para variantes y estado deshabilitado.
- //Usa operadores ternarios para cambiar estilos según la variante y si está deshabilitado.
-export default function CustomButton({title, onPress, disabled = false, variant = 'primary',}: CustomButtonProps) {
-  // --- Ternario: estilo del contenedor según variante y estado disabled ---
-  const buttonStyle: ViewStyle = {
-    ...(variant === 'primary' ? styles.primary : styles.secondary),
-    ...(disabled ? {} : {}),
-  };
+/**
+ * Botón reutilizable con soporte para variantes, estado deshabilitado
+ * y feedback visual al presionar (scale + opacidad).
+ * Conserva props y lógica original.
+ */
+export default function CustomButton({
+  title,
+  onPress,
+  disabled = false,
+  variant = 'primary',
+}: CustomButtonProps) {
+  const [pressed, setPressed] = useState(false);
 
-  // --- Ternario: color del texto según variante ---
-  const textStyle: TextStyle =
+  // Estilo del contenedor según variante y estado
+  const buttonVariantStyle: ViewStyle =
+    variant === 'primary' ? styles.primary : styles.secondary;
+
+  const disabledContainerStyle: ViewStyle = disabled ? styles.disabledContainer : {};
+
+  // Color de texto por variante
+  const textVariantStyle: TextStyle =
     variant === 'primary' ? styles.primaryText : styles.secondaryText;
+
+  // Estilo dinámico cuando está presionado (ligero scale y menor opacidad)
+  const pressFeedbackStyle: ViewStyle = pressed && !disabled
+    ? { transform: [{ scale: 0.98 }], opacity: 0.9 }
+    : {};
+
+  // Evita ejecutar onPress si está deshabilitado
+  const handlePress = (e: GestureResponderEvent) => {
+    if (!disabled) {
+      onPress?.();
+    }
+  };
 
   return (
     <TouchableOpacity
-      style={[styles.base]}
-      onPress={onPress}
-      activeOpacity={0.7}
+      activeOpacity={0.85}
+      onPress={handlePress}
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      disabled={disabled}
+      style={[
+        styles.base,
+        styles.shadow,            // iOS shadow
+        buttonVariantStyle,       // variante (bg/borde)
+        disabledContainerStyle,   // estado deshabilitado
+        pressFeedbackStyle,       // feedback al presionar
+      ]}
+      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+      accessibilityRole="button"
+      accessibilityState={{ disabled }}
+      accessibilityLabel={title}
     >
-      <Text style={[styles.baseText, textStyle, disabled && styles.disabledText]}>
+      <Text
+        style={[
+          styles.baseText,
+          textVariantStyle,
+          disabled && styles.disabledText,
+        ]}
+      >
         {title}
       </Text>
     </TouchableOpacity>
@@ -35,6 +86,7 @@ export default function CustomButton({title, onPress, disabled = false, variant 
 }
 
 const styles = StyleSheet.create({
+  // Contenedor base
   base: {
     paddingVertical: 14,
     paddingHorizontal: 24,
@@ -42,19 +94,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginVertical: 6,
+    // Android elevation
+    elevation: 2,
   },
+
+  // Sombra iOS (combinada con elevation para Android)
+  shadow: {
+    shadowColor: '#000',
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+  },
+
+  // Variantes
   primary: {
-    backgroundColor: '#4A90D9',
+    backgroundColor: '#4A90D9', // Azul principal
+    borderWidth: 0,
   },
   secondary: {
     backgroundColor: '#FFFFFF',
     borderWidth: 2,
     borderColor: '#4A90D9',
   },
-  
+
+  // Texto
   baseText: {
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   primaryText: {
     color: '#FFFFFF',
@@ -62,8 +129,14 @@ const styles = StyleSheet.create({
   secondaryText: {
     color: '#4A90D9',
   },
-    disabledText: {
-    color: '#f4a2a2',
+
+  // Disabled (botón + texto)
+  disabledContainer: {
+    opacity: 0.6,
   },
-  
+  disabledText: {
+    // mantiene el color de variante pero baja el contraste ligeramente
+    // si quieres, puedes forzar gris:
+    // color: '#B0BEC5',
+  },
 });
