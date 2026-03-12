@@ -21,6 +21,8 @@ import KeyBoardView from "../components/KeyBoardView";
       if (!isFormValid) {
         Alert.alert('Faltan datos', 'Ingresa actividad, fecha inicio y fecha fin.');
         return;
+      }else{
+        
       }
 
       const newTask = {
