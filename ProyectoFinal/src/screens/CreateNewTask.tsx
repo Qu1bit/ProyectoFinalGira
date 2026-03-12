@@ -3,6 +3,7 @@
   import CustomInput from "../components/CustomInput";
   import CustomButton from "../components/CustomButton";
   import { useAuth } from "../components/contexts/AuthContext";
+import KeyBoardView from "../components/KeyBoardView";
 
   export default function CreateNewTask({ navigation }: any) {
     const { user, logout } = useAuth(); 
@@ -35,7 +36,9 @@
     };
 
     return (
+      
       <ScrollView style={styles.screen} contentContainerStyle={styles.container}>
+        <KeyBoardView>
         <Text style={styles.title}>Nueva actividad</Text>
 
         {/* Card 1: Actividad */}
@@ -76,6 +79,7 @@
         </View>
 
         {/* Card 3: Fechas */}
+        
         <View style={styles.card}>
           <Text style={styles.label}>Establece las Fechas</Text>
           <CustomInput
@@ -93,7 +97,7 @@
             error={""}
           />
         </View>
-
+      
         <View >
           <CustomButton
             title="Enviar Tareas"
@@ -107,7 +111,9 @@
                   onPress={logout} 
                   variant="secondary" 
                 />
+                </KeyBoardView>
       </ScrollView>
+
     );
   }
 

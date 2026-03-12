@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import {View,TextInput,Text,TouchableOpacity,StyleSheet,KeyboardTypeOptions} from 'react-native';
+import {View,TextInput,Text,TouchableOpacity,StyleSheet,KeyboardTypeOptions, KeyboardAvoidingView} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
 //Propiedades de input personalizado
 interface CustomInputProps {
   value: string;
@@ -33,6 +32,7 @@ export default function CustomInput({
   const isSecure = type === 'password' && !showPassword;
 
   return (
+
       <View style={[styles.inputWrapper, error ? styles.inputError : styles.inputNormal]}>
         <TextInput
           style={styles.input}
@@ -58,6 +58,7 @@ export default function CustomInput({
           </TouchableOpacity>
         )}
       </View>
+
   );
 }
 

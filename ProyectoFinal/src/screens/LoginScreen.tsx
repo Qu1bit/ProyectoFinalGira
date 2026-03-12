@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, Image, Alert, ScrollViewComponent, KeyboardAvoidingView } from 'react-native';
-
+import { View, Text, StyleSheet, Image, Alert, ScrollViewComponent, KeyboardAvoidingView, Platform } from 'react-native';
+import KeyBoardView from '../components/KeyBoardView';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
 import { useAuth } from '../components/contexts/AuthContext';
@@ -33,9 +33,11 @@ export default function LoginScreen({ navigation }: any) {
   };
 
   return (
-   
+
+    <KeyBoardView>
     <View style={styles.container}>
-      {/* Sección del logo */}
+    {/* <View style={styles.container}> */}
+      {/* Sección  del logo */}
       <View style={styles.logoContainer}>
         <Image
           source={{ uri: 'https://cdn-icons-png.flaticon.com/512/4352/4352602.png' }}
@@ -50,7 +52,6 @@ export default function LoginScreen({ navigation }: any) {
       <View style={styles.formContainer}>
         <Text style={styles.formTitle}>Iniciar Sesión</Text>
 
- 
         <CustomInput
           value={username}
           placeholder="Correo electrónico"
@@ -80,6 +81,8 @@ export default function LoginScreen({ navigation }: any) {
         ) : null}
       </View>
     </View>
+</KeyBoardView>
+
     
   );
 }
