@@ -1,7 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import CreateNewTask from "../screens/CreateNewTask";
-import Dashboard from "../screens/DashBoard";
+import CreateNewTask from "../screens/CreateNewTask2";
+import Dashboard from "../screens/DashBoardScreen";
 import { useAuth } from "../components/contexts/AuthContext";
+import CreateNewTask2 from "../screens/CreateNewTask2";
+import DashBoardScreen from "../screens/DashBoardScreen";
 
 
 export type TabsParamList = {
@@ -19,7 +21,7 @@ const {user} = useAuth();
             {user?.role ==='common' && (
                 <Tab.Screen 
                 name = "Dash"
-                component={Dashboard}
+                component={DashBoardScreen}
                 options={{headerShown: false}}
             />
             )}
@@ -27,10 +29,10 @@ const {user} = useAuth();
             {user?.role ==='admin' && (
                 <Tab.Screen 
                 name = "Create"
-                component={CreateNewTask}
+                component={CreateNewTask2}
                 options={{headerShown: false}}
             />
-            )}
+            )}          
         </Tab.Navigator>
     );
 }
