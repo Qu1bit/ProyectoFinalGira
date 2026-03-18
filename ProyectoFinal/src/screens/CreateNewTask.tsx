@@ -14,6 +14,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Task, TaskStatus } from '../types/task';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { addTask, updateTask } from '../store/slices/taskSlice';
+import CustomButton from '../components/CustomButton';
 
 {/*
 const statusOptions: { key: TaskStatus; label: string; icon: any }[] = [
@@ -40,22 +41,22 @@ export default function AddEditTaskScreen({ route, navigation }: any) {
   //const [showGenrePicker, setShowGenrePicker] = useState(false);
 
   const handleOnSaveTask = () => {
-    if (!owner.trim() || !author.trim()){
-      Alert.alert ('Campos Requeridos', 'Titulo y Autor son requeridos para guardar un libro')
+    const now = new Date(); 
+    const endDate = new Date(closedAt);
+
+    if (!owner && endDate > now){
+      Alert.alert ('Asigne un usuario', 'La fecha final no puede menor que la fecha actual')
       return;
     }
     const taskData: Task = {
       id: existingTask?.id || Date.now().toString(),
-      title,
-      author,
-      genre,
-      status,
-      rating,
-      review,
-      coverImage: existingTask?.coverImage || '',
-      photos: existingTask?.photos || [],
-      startDate: existingTask?.startDate,
-      endDate: existingTask?.endDate,
+      owner,
+      description,
+      createdAt,      // ISO string
+      closedAt, 
+  status: TaskStatus;       // ISO string
+  isCompleted?: boolean;
+
       createdAt: existingTask?.createdAt || new Date().toISOString(),
     };
 
