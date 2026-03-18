@@ -1,14 +1,8 @@
 import { useState } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import CustomButton from './CustomButton';
+import { Task } from '../types/task';
 
-interface TaskCardProps {
-  owner: string;
-  description?: string;
-  createdAt?: Date;
-  closedAt?: Date;
-  isCompleted?: boolean;
-}
 
 export default function TaskCard({
   owner,
@@ -16,7 +10,7 @@ export default function TaskCard({
   createdAt,
   closedAt,
   isCompleted = false,
-}: TaskCardProps) {
+}: Task) {
   const [completed, setCompleted] = useState(isCompleted);
   const now = new Date();
 

@@ -5,7 +5,8 @@ export interface Task {
   id: string;
   owner: string;
   description?: string;
-  createdAt?: string;       // ISO string
-  closedAt?: string;        // ISO string
+  createdAt?: Date;       // ISO string
+  closedAt?: Date; 
+  status: TaskStatus;       // ISO string
   isCompleted?: boolean;
 }
