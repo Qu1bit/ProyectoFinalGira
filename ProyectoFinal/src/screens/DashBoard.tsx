@@ -2,9 +2,14 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-nati
 import TaskCard from '../components/TaskCard';
 import { useAuth } from '../components/contexts/AuthContext';
 import CustomButton from '../components/CustomButton';
+import { useAppSelector } from "../store/hooks";
 
 export default function Dashboard({ navigation }: any) {
   const { user, logout } = useAuth(); 
+  
+  const tasks = useAppSelector(state => state.tasks.tasks);
+
+  const userTasks = tasks.filter(task => task.owner === user?.username);
       
   return (
     <View style={styles.mainWrapper}>
@@ -14,19 +19,6 @@ export default function Dashboard({ navigation }: any) {
           <Text style={styles.welcomeText}>Hola, {user?.username}</Text>
           <Text style={styles.roleText}>Rol: {user?.role}</Text>
         </View>
-
-        <TaskCard
-          owner="Emerson"
-          description="Hacer Foro"
-          createdAt={new Date()}
-          closedAt={new Date('2026-03-10T17:00:00-06:00')}
-        />
-         <TaskCard
-            owner="Emerson"
-            description="Hacer Foro"
-            createdAt={new Date()}
-            closedAt={new Date('2026-03-02T17:00:00-06:00')}
-          />
       </ScrollView>
 
       {/*boton para cerrar sesion fijado en la zona baja */}
