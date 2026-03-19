@@ -4,6 +4,7 @@ export type TaskStatus = 'pendiente' | 'completado' | 'vencido';
 export interface Task {
   id: string;
   owner: string;
+  title:string;
   description?: string;
   createdAt?: string;       // ISO string
   closedAt?: string; 
