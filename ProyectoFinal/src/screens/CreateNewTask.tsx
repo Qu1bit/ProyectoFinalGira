@@ -14,6 +14,8 @@ import { addTask, updateTask } from '../store/slices/taskSlice';
 import CustomButton from '../components/CustomButton';
 import { colors } from '../themes/colors';
 import CustomInput from '../components/CustomInput';
+import { users } from '../types/users';
+import { useAuth } from '../components/contexts/AuthContext';
 
 {/*
 const statusOptions: { key: TaskStatus; label: string; icon: any }[] = [
@@ -30,7 +32,7 @@ export default function CreateNewTask({ route, navigation }: any) {
   const existingTask = useAppSelector((state) =>
     state.tasks.tasks.find((b) => b.id === taskId)
   );
-
+  const { user, logout } = useAuth(); 
   
   const isEditing = !!existingTask;
 
@@ -40,6 +42,7 @@ export default function CreateNewTask({ route, navigation }: any) {
   const [status, setStatus] = useState<TaskStatus>(existingTask?.status || 'pendiente');
   const [createdAt, setCreatedAt] = useState(existingTask?.createdAt || '');
   const [closedAt, setClosedAt] = useState(existingTask?.closedAt || '');
+  const [showUserList, setShowUserList] = useState(false);
   //const [showGenrePicker, setShowGenrePicker] = useState(false);
 
   const handleOnSaveTask = () => {
@@ -59,13 +62,11 @@ export default function CreateNewTask({ route, navigation }: any) {
       closedAt: existingTask?.closedAt || new Date().toISOString(), 
       status:existingTask?.status || "pendiente",     
     };
-
     if (isEditing) {
       dispatch(updateTask(taskData));
     } else {
       dispatch(addTask(taskData));
     }
-    navigation.goBack();
   };
   return (
     <KeyBoardView>
@@ -75,12 +76,6 @@ export default function CreateNewTask({ route, navigation }: any) {
             placeholder='Titulo'
             value={title}
             onChangeText={setTitle}
-          />
-          <CustomInput
-            placeholder='Descripcion'
-            value={description}
-            onChangeText={setDescription}
-            multiline={true}
           />
           <Text>
             Sugerencia 1
@@ -109,11 +104,42 @@ export default function CreateNewTask({ route, navigation }: any) {
             onChangeText={setClosedAt}
             isDate
           />
+          <CustomInput
+            label="Asignar usuario"
+            value={users.find(u => u.id === owner)?.name || ''}
+            placeholder="Selecciona un usuario"
+            pressable
+            onPress={() => setShowUserList(!showUserList)}
+          />
+          {showUserList && (
+          <View style={styles.dropdown}>
+            {users.map((user) => (
+              <Text
+                key={user.id}
+                style={[
+                  styles.option,
+                  owner === user.id && styles.selectedOption
+                ]}
+                onPress={() => {
+                  setOwner(user.id);
+                  setShowUserList(false);
+                }}
+              >
+                {user.name}
+              </Text>
+            ))}
+          </View>
+        )}
           <CustomButton
             title={isEditing ? 'Guardar Cambios' : 'Agregar Tarea'}
-            onPress={()=>{}}
+            onPress={handleOnSaveTask}
             variant="secondary"         
           />
+          <CustomButton 
+                    title="Cerrar Sesión" 
+                    onPress={logout} 
+                    variant="secondary" 
+                  />
         </View>
 
       </View>
@@ -133,5 +159,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 24,
   },
+  dropdown: {
+  borderWidth: 1,
+  borderColor: '#CFD8DC',
+  borderRadius: 10,
+  marginTop: 5,
+  backgroundColor: '#fff',
+},
+
+option: {
+  padding: 12,
+  borderBottomWidth: 1,
+  borderBottomColor: '#eee',
+},
+
+selectedOption: {
+  backgroundColor: '#e3f2fd',
+},
 
 });
