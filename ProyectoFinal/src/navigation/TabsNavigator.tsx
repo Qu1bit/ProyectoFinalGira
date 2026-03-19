@@ -24,7 +24,7 @@ const {user} = useAuth();
             />
             )}
             {/* condicional para mostrar pantalla al admin */}
-            {user?.role ==='admin' && (
+            {user?.role ==='superadmin' && (
                 <Tab.Screen 
                 name = "Create"
                 component={CreateNewTask}

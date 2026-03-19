@@ -6,20 +6,37 @@ import { useAppSelector } from "../store/hooks";
 
 export default function Dashboard({ navigation }: any) {
   const { user, logout } = useAuth(); 
-  
+
   const tasks = useAppSelector(state => state.tasks.tasks);
 
-  const userTasks = tasks.filter(task => task.owner === user?.username);
+  const userTasks = tasks.filter(task => task.owner === user?.id);
       
   return (
     <View style={styles.mainWrapper}>
       {/*Contenido desplazable */}
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Text style={styles.welcomeText}>Hola, {user?.username}</Text>
+          <Text style={styles.welcomeText}>Hola, {user?.id}</Text>
           <Text style={styles.roleText}>Rol: {user?.role}</Text>
         </View>
       </ScrollView>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+  <View style={styles.header}>
+    <Text style={styles.welcomeText}>Hola, {user?.name}</Text>
+    <Text style={styles.roleText}>Rol: {user?.role}</Text>
+  </View>
+
+  {/* LISTA DE TAREAS DEL USUARIO */}
+  <View>
+    {userTasks.length === 0 ? (
+      <Text>No tienes tareas asignadas</Text>
+    ) : (
+      userTasks.map(task => (
+        <TaskCard key={task.id} {...task} />
+      ))
+    )}
+  </View>
+</ScrollView>
 
       {/*boton para cerrar sesion fijado en la zona baja */}
       <View style={styles.fixedFooter}>
