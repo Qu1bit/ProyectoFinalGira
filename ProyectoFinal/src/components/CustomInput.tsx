@@ -22,12 +22,15 @@ interface CustomInputProps {
 
   size?: "sm" | "md";
 
-  // date picker
+  // comportamiento tipo select
   pressable?: boolean;
   onPress?: () => void;
 
   editable?: boolean;
-  isDate?: boolean; // NUEVO: indica si es date picker
+  isDate?: boolean;
+
+  // 🔥 NUEVO: tipo de input
+  type?: "text" | "email" | "password";
 }
 
 export default function CustomInput({
@@ -42,7 +45,8 @@ export default function CustomInput({
   pressable = false,
   onPress,
   editable = true,
-  isDate = false, // NUEVO
+  isDate = false,
+  type = "text",
 }: CustomInputProps) {
   const [focused, setFocused] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
@@ -51,9 +55,9 @@ export default function CustomInput({
   const sizeStyles = size === "sm" ? smallStyles : mediumStyles;
 
   const handleDateChange = (event: any, selectedDate?: Date) => {
-    setShowPicker(Platform.OS === "ios"); // en Android se cierra solo
+    setShowPicker(Platform.OS === "ios");
     if (selectedDate && onChangeText) {
-      onChangeText(selectedDate.toISOString().split("T")[0]); // yyyy-mm-dd
+      onChangeText(selectedDate.toISOString().split("T")[0]);
     }
   };
 
@@ -90,6 +94,11 @@ export default function CustomInput({
           onBlur={() => setFocused(false)}
           placeholderTextColor="#90A4AE"
           pointerEvents={pressable || isDate ? "none" : "auto"}
+
+          // 🔥 comportamiento por tipo
+          secureTextEntry={type === "password"}
+          keyboardType={type === "email" ? "email-address" : "default"}
+          autoCapitalize={type === "email" ? "none" : "sentences"}
         />
 
         {/* Date Picker */}
@@ -108,23 +117,51 @@ export default function CustomInput({
   );
 }
 
-// estilos y tamaños se mantienen igual
+// 🎨 ESTILOS
 const styles = StyleSheet.create({
-  container: { gap: 6 },
-  label: { color: "#374151", fontWeight: "600" },
+  container: {
+    gap: 6,
+  },
+  label: {
+    color: "#374151",
+    fontWeight: "600",
+  },
   inputWrapper: {
     borderWidth: 1.5,
     borderRadius: 12,
     paddingHorizontal: 14,
     backgroundColor: "#FFFFFF",
   },
-  input: { flex: 1, color: "#263238" },
-  textArea: { minHeight: 100 },
-  inputNormal: { borderColor: "#CFD8DC" },
-  inputFocused: { borderColor: "#2563eb" },
-  inputError: { borderColor: "#E53935" },
-  errorText: { color: "#E53935", fontSize: 12 },
+  input: {
+    flex: 1,
+    color: "#263238",
+  },
+  textArea: {
+    minHeight: 100,
+  },
+  inputNormal: {
+    borderColor: "#CFD8DC",
+  },
+  inputFocused: {
+    borderColor: "#2563eb",
+  },
+  inputError: {
+    borderColor: "#E53935",
+  },
+  errorText: {
+    color: "#E53935",
+    fontSize: 12,
+  },
 });
 
-const smallStyles = StyleSheet.create({ wrapper: { paddingVertical: 8 }, input: { fontSize: 14 }, label: { fontSize: 12 }});
-const mediumStyles = StyleSheet.create({ wrapper: { paddingVertical: 12 }, input: { fontSize: 16 }, label: { fontSize: 14 }});
+const smallStyles = StyleSheet.create({
+  wrapper: { paddingVertical: 8 },
+  input: { fontSize: 14 },
+  label: { fontSize: 12 },
+});
+
+const mediumStyles = StyleSheet.create({
+  wrapper: { paddingVertical: 12 },
+  input: { fontSize: 16 },
+  label: { fontSize: 14 },
+});

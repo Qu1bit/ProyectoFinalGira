@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, Image, Alert, ScrollViewComponent, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, Image, Alert } from 'react-native';
 import KeyBoardView from '../components/KeyBoardView';
 import CustomInput from '../components/CustomInput';
 import CustomButton from '../components/CustomButton';
@@ -17,73 +17,70 @@ export default function LoginScreen({ navigation }: any) {
 
   const isFormValid = username.length > 0 && password.length >= 4;
 
-  const handleLogin = () => {
-    setSubmitted(true);
+const handleLogin = () => {
+  setSubmitted(true);
 
-    if (isFormValid) {
-      const success = login(username, password);
+  if (isFormValid) {
+    const success = login(username, password);
 
-      if (!success) {
-        Alert.alert(
-          "Error de acceso",
-          "Usuario o contraseña incorrectos. Intente con 'superadmin' o 'cristhian'."
-        );
-      }
+    if (!success) {
+      Alert.alert(
+        "Error de acceso",
+        "Usuario o contraseña incorrectos. Intente con 'superadmin' o 'cristhian'."
+      );
     }
-  };
+  }
+};
 
   return (
-
     <KeyBoardView>
-    <View style={styles.container}>
-    {/* <View style={styles.container}> */}
-      {/* Sección  del logo */}
-      <View style={styles.logoContainer}>
-        <Image
-          source={{ uri: 'https://cdn-icons-png.flaticon.com/512/4352/4352602.png' }}
-          style={styles.logo}
-        />
-        <Text style={styles.appTitle}>Gira</Text>
-        <Text style={styles.subtitle}>Organiza tus proyectos</Text>
-      </View>
+      <View style={styles.container}>
 
-      {/* Tarjeta del formulario */}
-
-      <View style={styles.formContainer}>
-        <Text style={styles.formTitle}>Iniciar Sesión</Text>
-
-        <CustomInput
-          value={username}
-          placeholder="Correo electrónico"
-          onChangeText={setUsername}
-          type="email"
-          error={userError}
-        />
-       
-        <CustomInput
-          value={password}
-          placeholder="Contraseña"
-          onChangeText={setPassword}
-          type="password"
-          error={passwordError}
-        />
-        <View style={styles.buttonContainer}>
-          <CustomButton
-            title="Iniciar Sesión"
-            onPress={handleLogin}
-            disabled={!isFormValid}
-            variant="primary"
+        <View style={styles.logoContainer}>
+          <Image
+            source={{ uri: 'https://cdn-icons-png.flaticon.com/512/4352/4352602.png' }}
+            style={styles.logo}
           />
+          <Text style={styles.appTitle}>Gira</Text>
+          <Text style={styles.subtitle}>Organiza tus proyectos</Text>
         </View>
 
-        {submitted && !isFormValid ? (
-          <Text style={styles.helpText}>Por favor, corrige los errores para continuar.</Text>
-        ) : null}
-      </View>
-    </View>
-</KeyBoardView>
+        <View style={styles.formContainer}>
+          <Text style={styles.formTitle}>Iniciar Sesión</Text>
 
-    
+          <CustomInput
+            value={username}
+            placeholder="Correo electrónico"
+            onChangeText={setUsername}
+            type="email"
+            error={userError}
+          />
+       
+          <CustomInput
+            value={password}
+            placeholder="Contraseña"
+            onChangeText={setPassword}
+            type="password"
+            error={passwordError}
+          />
+
+          <View style={styles.buttonContainer}>
+            <CustomButton
+              title="Iniciar Sesión"
+              onPress={handleLogin}
+              disabled={!isFormValid}
+              variant="primary"
+            />
+          </View>
+
+          {submitted && !isFormValid ? (
+            <Text style={styles.helpText}>
+              Por favor, corrige los errores para continuar.
+            </Text>
+          ) : null}
+        </View>
+      </View>
+    </KeyBoardView>
   );
 }
 

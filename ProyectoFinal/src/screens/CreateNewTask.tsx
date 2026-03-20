@@ -89,8 +89,7 @@ export default function CreateNewTask({ route, navigation }: any) {
     } else {
       dispatch(addTask(taskData));
     }
-
-    navigation.goBack();
+    //navigation.goBack();
   }; //fin de nuevo codigo
 
 
