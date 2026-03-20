@@ -1,3 +1,4 @@
+import React from 'react';
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import TaskCard from '../components/TaskCard';
 import { useAuth } from '../components/contexts/AuthContext';
@@ -32,7 +33,11 @@ export default function Dashboard({ navigation }: any) {
             </View>
           ) : (
             userTasks.map(task => (
-              <TaskCard key={task.id} {...task} />
+              <TaskCard 
+                key={task.id} 
+                {...task} 
+                onPress={() => navigation.navigate('EditTask', { task })} 
+              />
             ))
           )}
         </View>

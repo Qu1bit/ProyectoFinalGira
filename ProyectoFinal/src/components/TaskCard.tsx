@@ -1,32 +1,31 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import CustomButton from './CustomButton';
+import React from 'react';
+import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+// import CustomButton from './CustomButton'; // 👈 Ya no lo necesitamos
 import { Task, TaskStatus } from '../types/task';
 import { users } from '../types/users';
 
 export default function TaskCard({
   owner: ownerId,
-  title, // <-- Agregado
+  title,
   description,
   createdAt,
   closedAt,
-  status: initialStatus, // Renombrado para no chocar con la lógica interna
+  status: initialStatus,
   isCompleted = false,
-}: Task) {
-  const [completed, setCompleted] = useState(isCompleted);
+  onPress, // 👈 Cambiado a onPress (es el estándar en React Native en lugar de onClick)
+}: Task & { onPress?: () => void }) {
+  
   const now = new Date();
 
-  // BUSCAR EL NOMBRE DEL USUARIO USANDO EL ID
+  // Buscar el nombre del usuario usando el ID
   const assignedUser = users.find(u => u.id === ownerId);
   const displayName = assignedUser ? assignedUser.name : 'Usuario';
 
-  // --- Lógica de estados funcional corregida ---
+  // --- Lógica de estados basada directamente en las props ---
   let status: TaskStatus;
-  
-  // Convertimos closedAt a objeto Date para comparar correctamente
   const expirationDate = closedAt ? new Date(closedAt) : null;
 
-  if (completed) {
+  if (isCompleted) {
     status = 'completado';
   } else if (expirationDate && now > expirationDate) {
     status = 'vencido';
@@ -34,31 +33,20 @@ export default function TaskCard({
     status = 'pendiente';
   }
 
-  const handleComplete = () => { 
-    setCompleted(true);
-    // Aquí podrías agregar un dispatch si necesitas actualizar Redux al instante
-  };
-
   return (
-    <View style={[
-      styles.card,
-      status === 'completado' && styles.bgCompleted,
-      status === 'vencido' && styles.bgExpired
-    ]}>
-        {/* Botón de Acción */}
-        <View style={styles.absoluteButton}>
-          <CustomButton
-            title={status === 'completado' ? 'Listo' : 'Finalizar'}
-            onPress={handleComplete}
-            variant={status === 'completado' ? 'primary' : 'secondary'}
-            disabled={status === 'completado'}
-          />
-        </View>
-
+    // 👇 Reemplazamos View por TouchableOpacity
+    <TouchableOpacity 
+      activeOpacity={0.7} // Le da un pequeño efecto visual al tocarlo
+      onPress={onPress} 
+      style={[
+        styles.card,
+        status === 'completado' && styles.bgCompleted,
+        status === 'vencido' && styles.bgExpired
+      ]}
+    >
       {/* Encabezado */}
       <View style={styles.header}>
         <View style={styles.iconCircle}>
-          {/* Validación por si owner viene vacío */}
           <Text style={styles.iconLetter}>{displayName[0].toUpperCase()}</Text>
         </View>
         <View style={styles.headerTextContainer}>
@@ -86,7 +74,7 @@ export default function TaskCard({
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -111,7 +99,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    paddingRight: 100, // Espacio para que el texto no choque con el botón
+    // paddingRight: 100, 👈 Eliminado, ya no hay botón que ocupe este espacio
   },
   headerTextContainer: {
     flex: 1,
@@ -128,7 +116,7 @@ const styles = StyleSheet.create({
   iconLetter: { color: '#fff', fontWeight: 'bold', fontSize: 16 },
   ownerText: { fontSize: 14, fontWeight: '600', color: '#6b7280' },
   statusTag: { fontSize: 10, fontWeight: '800', color: '#9ca3af', letterSpacing: 0.5 },
-  titleText: { // Estilo para el título
+  titleText: { 
     fontSize: 18,
     fontWeight: 'bold',
     color: '#1f2937',
@@ -148,10 +136,4 @@ const styles = StyleSheet.create({
   dateRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 },
   dateLabel: { fontSize: 12, color: '#9ca3af' },
   dateValue: { fontSize: 12, fontWeight: '600', color: '#374151' },
-  absoluteButton: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    zIndex: 1,
-  },
 });
