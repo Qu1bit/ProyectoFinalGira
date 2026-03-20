@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import TaskCard from '../components/TaskCard';
 import { useAuth } from '../components/contexts/AuthContext';
 import CustomButton from '../components/CustomButton';
@@ -6,39 +6,39 @@ import { useAppSelector } from "../store/hooks";
 
 export default function Dashboard({ navigation }: any) {
   const { user, logout } = useAuth(); 
-
   const tasks = useAppSelector(state => state.tasks.tasks);
 
+  // Filtrado de tareas por ID de usuario
   const userTasks = tasks.filter(task => task.owner === user?.id);
       
   return (
     <View style={styles.mainWrapper}>
-      {/*Contenido desplazable */}
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      {/* 1. UN SOLO ScrollView para todo el contenido dinámico */}
+      <ScrollView 
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Encabezado */}
         <View style={styles.header}>
-          <Text style={styles.welcomeText}>Hola, {user?.id}</Text>
+          <Text style={styles.welcomeText}>Hola, {user?.name}</Text>
           <Text style={styles.roleText}>Rol: {user?.role}</Text>
         </View>
+
+        {/* LISTA DE TAREAS */}
+        <View style={styles.listContainer}>
+          {userTasks.length === 0 ? (
+            <View style={styles.emptyState}>
+              <Text style={styles.emptyText}>No tienes tareas asignadas</Text>
+            </View>
+          ) : (
+            userTasks.map(task => (
+              <TaskCard key={task.id} {...task} />
+            ))
+          )}
+        </View>
       </ScrollView>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-  <View style={styles.header}>
-    <Text style={styles.welcomeText}>Hola, {user?.name}</Text>
-    <Text style={styles.roleText}>Rol: {user?.role}</Text>
-  </View>
 
-  {/* LISTA DE TAREAS DEL USUARIO */}
-  <View>
-    {userTasks.length === 0 ? (
-      <Text>No tienes tareas asignadas</Text>
-    ) : (
-      userTasks.map(task => (
-        <TaskCard key={task.id} {...task} />
-      ))
-    )}
-  </View>
-</ScrollView>
-
-      {/*boton para cerrar sesion fijado en la zona baja */}
+      {/* 2. Footer FIJO (Fuera del ScrollView) */}
       <View style={styles.fixedFooter}>
         <CustomButton 
           title="Cerrar Sesión" 
@@ -57,7 +57,9 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    paddingBottom: 100,
+    // El paddingBottom debe ser suficiente para que el último item 
+    // no quede tapado por el footer fijo
+    paddingBottom: 110, 
   },
   header: {
     marginBottom: 20,
@@ -73,7 +75,17 @@ const styles = StyleSheet.create({
     color: '#6b7280',
     textTransform: 'capitalize',
   },
-  // --- estilo boton fijo ---
+  listContainer: {
+    flex: 1,
+  },
+  emptyState: {
+    alignItems: 'center',
+    marginTop: 50,
+  },
+  emptyText: {
+    color: '#9ca3af',
+    fontSize: 16,
+  },
   fixedFooter: {
     position: 'absolute',
     bottom: 0,
@@ -84,11 +96,10 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderTopWidth: 1,
     borderTopColor: '#e5e7eb',
-    // Sombras
+    elevation: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -3 },
     shadowOpacity: 0.05,
     shadowRadius: 5,
-    elevation: 10,
   },
 });

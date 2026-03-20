@@ -32,7 +32,7 @@ export default function CreateNewTask({ route, navigation }: any) {
   const existingTask = useAppSelector((state) =>
     state.tasks.tasks.find((b) => b.id === taskId)
   );
-  const { user, logout } = useAuth(); 
+  const { logout } = useAuth(); 
   
   const isEditing = !!existingTask;
 
@@ -46,13 +46,20 @@ export default function CreateNewTask({ route, navigation }: any) {
   //const [showGenrePicker, setShowGenrePicker] = useState(false);
 
   const handleOnSaveTask = () => {
+    //comienzo nuevo codigo
+    if(!owner){
+      Alert.alert('Error', 'Seleccione un usuario');
+      return;
+    }
+
+    {/* codigo anterior
     const now = new Date(); 
     const endDate = new Date(closedAt);
-
     if (!owner && endDate > now){
       Alert.alert ('Asigne un usuario', 'La fecha final no puede menor que la fecha actual')
       return;
     }
+    
     const taskData: Task = {
       id: existingTask?.id || Date.now().toString(),
       owner,
@@ -62,12 +69,31 @@ export default function CreateNewTask({ route, navigation }: any) {
       closedAt: existingTask?.closedAt || new Date().toISOString(), 
       status:existingTask?.status || "pendiente",     
     };
+
+    */}
+
+    
+    const taskData: Task = {
+    id: isEditing ? taskId : Date.now().toString(),
+    owner: owner, // El ID que seleccionaste en el dropdown
+    title: title,
+    description: description,
+    status: status,
+    createdAt: createdAt || new Date().toISOString(),
+    closedAt: closedAt || new Date().toISOString(),
+    };
+
+
     if (isEditing) {
       dispatch(updateTask(taskData));
     } else {
       dispatch(addTask(taskData));
     }
-  };
+
+    navigation.goBack();
+  }; //fin de nuevo codigo
+
+
   return (
     <KeyBoardView>
       <View style={styles.form}>

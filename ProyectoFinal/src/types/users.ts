@@ -1,6 +1,6 @@
 // types/user.ts
 export interface User {
-  id?: string;
+  id: string;       //definicion anterior id?:
   name: string;
   role: 'superadmin' | 'common';
 }
