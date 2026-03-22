@@ -27,7 +27,7 @@ export default function StackNavigator() {
           <Stack.Screen 
             name="EditTask" 
             component={EditTask} 
-            options={{ headerShown: true, title: 'Editar Tarea' }} 
+            options={{ headerShown: false }}
           />
         </>
       ) : (
