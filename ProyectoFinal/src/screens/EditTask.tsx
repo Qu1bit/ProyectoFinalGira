@@ -5,7 +5,6 @@ import { Task, TaskStatus } from '../types/task';
 import { useAppDispatch } from '../store/hooks';
 import { updateTask } from '../store/slices/taskSlice';
 import CustomButton from '../components/CustomButton';
-import { colors } from '../themes/colors';
 import CustomInput from '../components/CustomInput';
 
 export default function EditTask({ route, navigation }: any) {

@@ -23,7 +23,7 @@ export default function StackNavigator() {
       {isAuthenticated ? (
         <>
           <Stack.Screen name="Tabs" component={TabsNavigator} />
-          {/* 👇 Esta pantalla ahora es accesible desde cualquier lugar del Stack */}
+          {/*  Esta pantalla ahora es accesible desde cualquier lugar del Stack */}
           <Stack.Screen 
             name="EditTask" 
             component={EditTask} 
