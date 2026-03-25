@@ -10,8 +10,10 @@ export default function Dashboard({ navigation }: any) {
   const tasks = useAppSelector(state => state.tasks.tasks);
   
 
-  // Filtrado de tareas por ID de usuario
-  const userTasks = tasks.filter(task => task.owner === user?.id);
+  // Filtrado de tareas por ID de usuario y estado no finalizado
+  const activeUserTasks = tasks.filter(task => task.owner === user?.id && task.status !== 'completado');
+
+
       
   return (
     <View style={styles.mainWrapper}>
@@ -28,12 +30,12 @@ export default function Dashboard({ navigation }: any) {
 
         {/* LISTA DE TAREAS */}
         <View style={styles.listContainer}>
-          {userTasks.length === 0 ? (
+          {activeUserTasks.length === 0 ? (
             <View style={styles.emptyState}>
               <Text style={styles.emptyText}>No tienes tareas asignadas</Text>
             </View>
           ) : (
-            userTasks.map(task => (
+            activeUserTasks.map(task => (
               <TaskCard 
                 key={task.id} 
                 {...task} 
