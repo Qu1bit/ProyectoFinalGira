@@ -5,45 +5,38 @@ import { useAuth } from '../components/contexts/AuthContext';
 import CustomButton from '../components/CustomButton';
 import { useAppSelector } from "../store/hooks";
 
-export default function Dashboard({ navigation }: any) {
+export default function AdminDashboard({ navigation }: any) {
   const { user, logout } = useAuth(); 
   const tasks = useAppSelector(state => state.tasks.tasks);
 
-  // Filtrado de tareas por ID de usuario
-  const userTasks = tasks.filter(task => task.owner === user?.id);
-      
   return (
     <View style={styles.mainWrapper}>
-      {/* 1. UN SOLO ScrollView para todo el contenido dinámico */}
       <ScrollView 
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Encabezado */}
         <View style={styles.header}>
           <Text style={styles.welcomeText}>Hola, {user?.name}</Text>
           <Text style={styles.roleText}>Rol: {user?.role}</Text>
         </View>
 
-        {/* LISTA DE TAREAS */}
         <View style={styles.listContainer}>
-          {userTasks.length === 0 ? (
+          {tasks.length === 0 ? (
             <View style={styles.emptyState}>
-              <Text style={styles.emptyText}>No tienes tareas asignadas</Text>
+              <Text style={styles.emptyText}>No hay tareas registradas en el sistema</Text>
             </View>
           ) : (
-            userTasks.map(task => (
+            tasks.map(task => (
               <TaskCard 
                 key={task.id} 
                 {...task} 
-                //onPress={() => navigation.navigate('EditTask', { task })} 
               />
             ))
           )}
         </View>
       </ScrollView>
 
-      {/* 2. Footer FIJO (Fuera del ScrollView) */}
+      {/* Footer FIJO */}
       <View style={styles.fixedFooter}>
         <CustomButton 
           title="Cerrar Sesión" 
@@ -62,8 +55,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 16,
-    // El paddingBottom debe ser suficiente para que el último item 
-    // no quede tapado por el footer fijo
     paddingBottom: 110, 
   },
   header: {

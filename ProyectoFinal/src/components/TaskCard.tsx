@@ -12,7 +12,7 @@ export default function TaskCard({
   closedAt,
   status: initialStatus,
   isCompleted = false,
-  onPress, // 👈 Cambiado a onPress (es el estándar en React Native en lugar de onClick)
+  onPress, 
 }: Task & { onPress?: () => void }) {
   
   const now = new Date();

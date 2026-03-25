@@ -4,11 +4,13 @@ import { useAuth } from "../components/contexts/AuthContext";
 import CreateNewTask from "../screens/CreateNewTask";
 import DashBoard from "../screens/DashBoard";
 import RegisterUser from "../screens/RegisterUser";
+import AdminDashBoard from "../screens/AdminDashBoard";
 
 export type TabsParamList = {
     Dash: undefined;
     Create: undefined;
     Register: undefined;
+    Admin: undefined;
 }
 
 const Tab = createBottomTabNavigator<TabsParamList>();
@@ -50,6 +52,13 @@ export default function TabsNavigator() {
                 <Tab.Screen 
                     name="Create"
                     component={CreateNewTask}
+                    options={{ tabBarLabel: 'Nueva Tarea' }}
+                />
+            )}
+            {user?.role === 'superadmin' && (
+                <Tab.Screen 
+                    name="Admin"
+                    component={AdminDashBoard}
                     options={{ tabBarLabel: 'Nueva Tarea' }}
                 />
             )}

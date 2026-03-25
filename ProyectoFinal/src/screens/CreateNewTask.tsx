@@ -38,6 +38,16 @@ export default function CreateNewTask({ route, navigation }: any) {
   const [closedAt, setClosedAt] = useState(existingTask?.closedAt || '');
   const [showUserList, setShowUserList] = useState(false);
 
+  const resetForm = () => {
+    setTitle('');
+    setOwner('');
+    setDescription('');
+    setStatus('pendiente');
+    setCreatedAt('');
+    setClosedAt('');
+    setShowUserList(false);
+  };
+
   const handleOnSaveTask = () => {
     if(!owner || !title){
       Alert.alert('Error', 'El título y el usuario son obligatorios');
@@ -61,7 +71,8 @@ export default function CreateNewTask({ route, navigation }: any) {
       dispatch(addTask(taskData));
       Alert.alert('Éxito', 'Tarea creada');
     }
-    navigation.goBack();
+    navigation.navigate('Tabs', { screen: 'Admin' });
+    resetForm();
   };
 
   return (
