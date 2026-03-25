@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { MaterialIcons } from '@expo/vector-icons'; // Si usas Expo, si no usa 'react-native-vector-icons/MaterialIcons'
+import { MaterialIcons } from '@expo/vector-icons';
 import { useAuth } from "../components/contexts/AuthContext";
 import CreateNewTask from "../screens/CreateNewTask";
 import DashBoard from "../screens/DashBoard";

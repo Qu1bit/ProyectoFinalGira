@@ -2,9 +2,9 @@ import React from 'react';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/LoginScreen";
 import TabsNavigator from './TabsNavigator';
-import EditTask from "../screens/EditTask"; // 👈 Importa tu pantalla
+import EditTask from "../screens/EditTask";
 import { useAuth } from "../components/contexts/AuthContext";
-import { Task } from '../types/task'; // Importa el tipo Task
+import { Task } from '../types/task';
 
 // Agregamos EditTask a la lista de parámetros
 export type RootStackParamList = {

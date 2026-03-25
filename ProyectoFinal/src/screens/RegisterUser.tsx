@@ -15,8 +15,12 @@ import KeyBoardView from "../components/KeyBoardView";
 import CustomInput from "../components/CustomInput";
 import CustomButton from "../components/CustomButton";
 import { User } from "../types/users";
+import { addUser } from "../store/slices/userSlice";
+import { useAppDispatch } from "../store/hooks";
 
 export default function RegisterScreen({ navigation }: any) {
+  const dispatch = useAppDispatch();
+
   // Estados para cumplir con la interfaz User
   const [name, setName] = useState("");
   const [role, setRole] = useState<'superadmin' | 'common'>('common');
@@ -47,30 +51,25 @@ export default function RegisterScreen({ navigation }: any) {
     }
   };
 
-  const handleRegister = async () => {
+const handleRegister = async () => {
     if (!email || !password || !name) {
-      Alert.alert("Campos requeridos", "Por favor, completa el nombre, correo y contraseña.");
+      Alert.alert("Campos requeridos", "Por favor, completa los datos.");
       return;
     }
 
-    try {
-      // 1. Aquí llamarías a tu lógica de registro/auth
-      //h await register(email, password, name, role);
+    const newUser: User = {
+      id: Date.now().toString(),
+      name: name,
+      email: email,
+      role: role,
+      photo: image || undefined
+    };
 
-      // 2. Aquí construirías el objeto final para tu base de datos
-      const newUser: User & { photo?: string } = {
-        id: Date.now().toString(), // O el ID que devuelva tu DB
-        name: name,
-        role: role,
-        photo: image || undefined
-      };
+    // --- ACCIÓN DE REDUX ---
+    dispatch(addUser(newUser));
 
-      console.log("Usuario creado con éxito:", newUser);
-      Alert.alert("Éxito", `Usuario ${name} registrado correctamente.`);
-      navigation.goBack();
-    } catch (error: any) {
-      Alert.alert("Error de registro", error?.message ?? "No se pudo crear el usuario");
-    }
+    Alert.alert("Éxito", `Usuario ${name} creado en Redux.`);
+    navigation.goBack();
   };
 
   return (

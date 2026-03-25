@@ -13,10 +13,12 @@ import { addTask, updateTask } from '../store/slices/taskSlice';
 import CustomButton from '../components/CustomButton';
 import { colors } from '../themes/colors';
 import CustomInput from '../components/CustomInput';
-import { users } from '../types/users';
+//import { users } from '../types/users';
 import { useAuth } from '../components/contexts/AuthContext';
 
+
 export default function CreateNewTask({ route, navigation }: any) {
+  const users = useAppSelector((state)=> state.users.users)
   const taskId = route.params?.taskbookId;
   const dispatch = useAppDispatch();
   const existingTask = useAppSelector((state) =>

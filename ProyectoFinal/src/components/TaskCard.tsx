@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Task, TaskStatus } from '../types/task';
-import { users } from '../types/users';
+import { useAppSelector } from "../store/hooks";
 
 export default function TaskCard({
   owner: ownerId,
@@ -16,15 +16,17 @@ export default function TaskCard({
   
   const now = new Date();
 
-  // Buscar el nombre del usuario usando el ID
-  const assignedUser = users.find(u => u.id === ownerId);
-  const displayName = assignedUser ? assignedUser.name : 'Usuario';
+  // Obtener la lista de usuarios DINÁMICA desde Redux
+  const usersFromRedux = useAppSelector((state) => state.users.users);
 
-  // --- Lógica de estados basada directamente en las props ---
+  //buscar el nombre del usuario usando el ID en la lista de Redux
+  const assignedUser = usersFromRedux.find(u => u.id === ownerId);
+  const displayName = assignedUser ? assignedUser.name : 'Usuario Desconocido';
+
+  // --- Lógica de estados corregida ---
   let status: TaskStatus;
   const expirationDate = closedAt ? new Date(closedAt) : null;
 
-  //validar primero si el objeto ya esta completado
   if (initialStatus === 'completado' || isCompleted) {
     status = 'completado';
   } else if (expirationDate && now > expirationDate) {
@@ -34,9 +36,8 @@ export default function TaskCard({
   }
 
   return (
-    // 👇 Reemplazamos View por TouchableOpacity
     <TouchableOpacity 
-      activeOpacity={0.7} // Le da un pequeño efecto visual al tocarlo
+      activeOpacity={0.7} 
       onPress={onPress} 
       style={[
         styles.card,
@@ -44,10 +45,12 @@ export default function TaskCard({
         status === 'vencido' && styles.bgExpired
       ]}
     >
-      {/* Encabezado */}
       <View style={styles.header}>
         <View style={styles.iconCircle}>
-          <Text style={styles.iconLetter}>{displayName[0].toUpperCase()}</Text>
+          {/* Usamos el nombre dinámico para la letra del avatar */}
+          <Text style={styles.iconLetter}>
+            {displayName ? displayName[0].toUpperCase() : '?'}
+          </Text>
         </View>
         <View style={styles.headerTextContainer}>
           <Text style={styles.ownerText}>{displayName}</Text>
@@ -55,11 +58,9 @@ export default function TaskCard({
         </View>
       </View>
 
-      {/* Título y Descripción */}
       <Text style={styles.titleText}>{title}</Text> 
       <Text style={styles.descriptionText}>{description}</Text>
 
-      {/* Contenedor de Fechas */}
       <View style={styles.dateContainer}>
         <View style={styles.dateRow}>
           <Text style={styles.dateLabel}>Creado:</Text>
@@ -78,6 +79,7 @@ export default function TaskCard({
   );
 }
 
+// Los estilos se mantienen iguales...
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#ffffff',
@@ -99,7 +101,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-    // paddingRight: 100, 👈 Eliminado, ya no hay botón que ocupe este espacio
   },
   headerTextContainer: {
     flex: 1,

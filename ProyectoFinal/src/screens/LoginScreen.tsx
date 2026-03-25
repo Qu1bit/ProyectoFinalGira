@@ -26,7 +26,7 @@ const handleLogin = () => {
     if (!success) {
       Alert.alert(
         "Error de acceso",
-        "Usuario o contraseña incorrectos. Intente con 'superadmin' o 'cristhian'."
+        "Usuario o contraseña incorrectos."
       );
     }
   }
