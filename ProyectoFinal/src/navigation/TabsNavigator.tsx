@@ -33,8 +33,9 @@ export default function TabsNavigator() {
                         iconName = 'add-task';
                     } else if (route.name === 'Register') {
                         iconName = 'person-add-alt-1';
-                    } else {
-                        iconName = 'help-outline';
+                    } 
+                    else {
+                        iconName = 'dashboard';
                     }
 
                     return <MaterialIcons name={iconName} size={size + 4} color={color} />;
@@ -59,7 +60,7 @@ export default function TabsNavigator() {
                 <Tab.Screen 
                     name="Admin"
                     component={AdminDashBoard}
-                    options={{ tabBarLabel: 'Nueva Tarea' }}
+                    options={{ tabBarLabel: 'Tablero' }}
                 />
             )}
             {user?.role === 'superadmin' && (
