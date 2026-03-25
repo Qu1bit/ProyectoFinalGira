@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-// import CustomButton from './CustomButton'; // 👈 Ya no lo necesitamos
 import { Task, TaskStatus } from '../types/task';
 import { users } from '../types/users';
 
@@ -25,7 +24,8 @@ export default function TaskCard({
   let status: TaskStatus;
   const expirationDate = closedAt ? new Date(closedAt) : null;
 
-  if (isCompleted) {
+  //validar primero si el objeto ya esta completado
+  if (initialStatus === 'completado' || isCompleted) {
     status = 'completado';
   } else if (expirationDate && now > expirationDate) {
     status = 'vencido';

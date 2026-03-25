@@ -16,7 +16,12 @@ export default function EditTask({ route, navigation }: any) {
   }, [navigation]);
 
   const [description, setDescription] = useState(taskToEdit.description || '');
-  const [newComment, setNewComment] = useState(''); 
+  const [newComment, setNewComment] = useState('');
+  // Función para limpiar el formulario
+  const resetForm = () => {
+    setNewComment('');
+    setDescription('');
+  }; 
 
   const handleSaveAndExit = (shouldFinish: boolean) => {
     // 1. Capturamos fecha y hora actual para el comentario
@@ -37,16 +42,18 @@ export default function EditTask({ route, navigation }: any) {
     } else {
       finalStatus = 'pendiente';
       finalClosedAt = taskToEdit.closedAt;
+      
     }
-
+    
     const updatedTask: Task = {
       ...taskToEdit,
       description: finalDescription,
       status: finalStatus,
       closedAt: finalClosedAt,
     };
-
+    resetForm();
     dispatch(updateTask(updatedTask));
+    
     
     if (shouldFinish) {
       Alert.alert('¡Misión Cumplida!', 'La tarea ha sido finalizada con éxito.');

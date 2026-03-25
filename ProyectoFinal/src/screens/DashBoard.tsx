@@ -8,6 +8,7 @@ import { useAppSelector } from "../store/hooks";
 export default function Dashboard({ navigation }: any) {
   const { user, logout } = useAuth(); 
   const tasks = useAppSelector(state => state.tasks.tasks);
+  
 
   // Filtrado de tareas por ID de usuario
   const userTasks = tasks.filter(task => task.owner === user?.id);
@@ -36,7 +37,7 @@ export default function Dashboard({ navigation }: any) {
               <TaskCard 
                 key={task.id} 
                 {...task} 
-                //onPress={() => navigation.navigate('EditTask', { task })} 
+                onPress={() => navigation.navigate('EditTask', { task })} 
               />
             ))
           )}
